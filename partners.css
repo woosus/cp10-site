@@ -1,0 +1,67 @@
+body {
+  margin: 0;
+  background: #0b0f2b;
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+  overflow-x: hidden;
+}
+.title {
+  text-align: center;
+  margin: 30px;
+  font-size: 2rem;
+}
+.carousel {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 60px;
+}
+.partner {
+  width: 160px;
+  height: 120px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: transform 0.4s ease, opacity 0.6s ease;
+}
+.partner:hover {
+  transform: scale(1.1);
+}
+.stage {
+  position: fixed;
+  bottom: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  pointer-events: none;
+}
+.platform {
+  width: 500px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, #ff00de 0%, #00cfff 80%);
+  box-shadow: 0 0 30px #ff00de, 0 0 60px #00cfff;
+  opacity: 0.8;
+}
+.info-panel {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%) translateY(150px);
+  background: rgba(20,20,40,0.9);
+  border-radius: 15px;
+  padding: 20px 30px;
+  min-width: 300px;
+  text-align: center;
+  opacity: 0;
+  transition: all 1.2s ease;
+}
+.info-panel.show {
+  transform: translateX(-50%) translateY(0px);
+  opacity: 1;
+}
+.hidden {
+  display: none;
+}

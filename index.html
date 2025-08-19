@@ -1,96 +1,29 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CP10 — Partners</title>
-  <style>
-    body { background:#0a0f2c; color:white; font-family:sans-serif; margin:0; padding:0; }
-    header { padding:20px; text-align:center; }
-    .card { transition: transform 300ms ease, filter 300ms ease, opacity 300ms ease;
-            transform-style: preserve-3d; perspective:1000px; }
-    .card.active { transform: scale(1.5) rotateY(0deg); z-index:50; filter:brightness(1); opacity:1; }
-    .card.dimmed { transform: scale(0.2) rotateY(-8deg); filter:brightness(0.5); opacity:0.7; }
-    .carousel { display:flex; gap:16px; overflow-x:auto; padding-bottom:16px;
-                scroll-behavior:smooth; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; }
-    .carousel > div { scroll-snap-align:center; min-width:360px; }
-    .card img { width:100%; height:260px; object-fit:contain; background:white; display:block; }
-    .cap { padding:12px 16px; text-align:center; font-weight:600; font-size:14px; color:#111; background:white; }
-    .head { display:flex; align-items:center; justify-content:space-between; margin:0 20px 12px; }
-    .btn { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18);
-           color:#fff; padding:8px 12px; border-radius:10px; cursor:pointer; }
-    .btn:hover { background:rgba(255,255,255,.14); }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CP10 Partners v2</title>
+  <link rel="stylesheet" href="partners.css" />
 </head>
 <body>
-  <header><h1>CP10 Partners</h1></header>
+  <div class="stage">
+    <div class="platform"></div>
+  </div>
 
-  <section>
-    <div class="head">
-      <h2>Verified Providers</h2>
-      <div>
-        <button id="prevBtn" class="btn">◀︎</button>
-        <button id="nextBtn" class="btn">▶︎</button>
-      </div>
-    </div>
-    <p style="margin:0 20px 20px; font-size:14px; color:rgba(255,255,255,.7)">
-      자동 왕복 이동 · 휠/터치 4–5카드 스텝 · 클릭 시 1.5× 포커스
-    </p>
-    <div id="rail" class="carousel"></div>
+  <h1 class="title">CP10 Partners</h1>
+  <section class="carousel">
+    <div class="partner" data-name="Evolution" data-desc="세계 최고의 라이브 카지노 프로바이더" style="background-image:url('assets/evolution.png')"></div>
+    <div class="partner" data-name="Pragmatic Play" data-desc="슬롯과 라이브 딜러 전문 브랜드" style="background-image:url('assets/pragmatic-play.png')"></div>
+    <div class="partner" data-name="Playtech" data-desc="스포츠북과 카지노 게임 선도" style="background-image:url('assets/playtech.png')"></div>
+    <div class="partner" data-name="NetEnt" data-desc="혁신적인 슬롯 디자인" style="background-image:url('assets/netent.png')"></div>
   </section>
 
-  <script>
-    const rail=document.getElementById('rail');
-    const partners=[
-      {name:'Evolution', slug:'evolution'},
-      {name:'Pragmatic Play', slug:'pragmatic-play'},
-      ...Array.from({length:26},(_,i)=>({name:`Provider ${String(i+3).padStart(2,'0')}`, slug:`provider-${String(i+3).padStart(2,'0')}`}))
-    ];
-    let activeEl=null, autoDir=1, autoTimer=null, resumeTimer=null;
+  <div id="infoPanel" class="info-panel hidden">
+    <h2 id="infoName"></h2>
+    <p id="infoDesc"></p>
+  </div>
 
-    render(); startAuto();
-
-    function render(){
-      rail.innerHTML='';
-      partners.forEach((p,i)=>{
-        const wrap=document.createElement('div');
-        const card=document.createElement('div'); card.className='card'; card.dataset.index=i;
-        const img=document.createElement('img'); img.src=`./assets/partners/${p.slug}.png`; img.alt=p.name;
-        img.onerror=()=>{img.src=placeholder(p.name)};
-        const cap=document.createElement('div'); cap.className='cap'; cap.textContent=p.name;
-        card.appendChild(img); card.appendChild(cap); wrap.appendChild(card); rail.appendChild(wrap);
-        card.addEventListener('click',()=>toggleActive(card));
-      });
-
-      rail.addEventListener('wheel', e=>{
-        e.preventDefault(); const w=cardW(), step=Math.round((window.innerWidth/w)*4.5);
-        rail.scrollBy({left:Math.sign(e.deltaY||e.deltaX)*w*step, behavior:'smooth'}); pauseAuto();
-      }, {passive:false});
-
-      let sx=0; rail.addEventListener('touchstart',e=>{sx=e.touches[0].clientX; pauseAuto();},{passive:true});
-      rail.addEventListener('touchend',e=>{
-        const dx=e.changedTouches[0].clientX-sx;
-        const w=cardW(), step=Math.round((window.innerWidth/w)*4.5);
-        if(Math.abs(dx)>20) rail.scrollBy({left:-Math.sign(dx)*w*step,behavior:'smooth'});
-      },{passive:true});
-
-      document.getElementById('prevBtn').onclick=()=>{ rail.scrollBy({left:-cardW()*4, behavior:'smooth'}); pauseAuto(); };
-      document.getElementById('nextBtn').onclick=()=>{ rail.scrollBy({left: cardW()*4, behavior:'smooth'}); pauseAuto(); };
-    }
-
-    function toggleActive(card){
-      if(activeEl===card){clearActive(); return;}
-      clearActive(); activeEl=card; activeEl.classList.add('active');
-      Array.from(rail.querySelectorAll('.card')).forEach(el=>{if(el!==activeEl) el.classList.add('dimmed');});
-      const wrap=activeEl.parentElement; const left=wrap.offsetLeft-(rail.clientWidth-wrap.clientWidth)/2;
-      rail.scrollTo({left,behavior:'smooth'});
-    }
-    function clearActive(){Array.from(rail.querySelectorAll('.card')).forEach(el=>el.classList.remove('active','dimmed')); activeEl=null;}
-    function cardW(){const el=rail.querySelector('div'); return el? el.getBoundingClientRect().width+16:360;}
-    function startAuto(){ stopAuto(); autoTimer=setInterval(()=>{const max=rail.scrollWidth-rail.clientWidth; const atStart=rail.scrollLeft<=0; const atEnd=rail.scrollLeft>=max-2; if(atEnd) autoDir=-1; if(atStart) autoDir=1; rail.scrollBy({left:autoDir*cardW(), behavior:'smooth'});},1800);}
-    function stopAuto(){if(autoTimer) clearInterval(autoTimer); autoTimer=null;}
-    function pauseAuto(){stopAuto(); clearTimeout(resumeTimer); resumeTimer=setTimeout(()=>startAuto(),4000);}
-    function placeholder(name){const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='800' height='400'><rect width='100%' height='100%' fill='white'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='36' fill='black'>${name}</text></svg>`; return 'data:image/svg+xml;utf8,'+encodeURIComponent(svg);}
-  </script>
+  <script src="partners.js"></script>
 </body>
 </html>
