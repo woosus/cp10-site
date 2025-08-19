@@ -1,34 +1,77 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CP10 Partners — Bright v2.3</title>
-  <link rel="stylesheet" href="site.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CP10 – 파트너스 v24</title>
   <link rel="stylesheet" href="partners.css" />
 </head>
-<body>
-
-  <header class="topbar">
-    <div class="brand"><span>CP10</span></div>
-    <nav class="menu"><a class="" href="index.html">홈</a> <a class="" href="about.html">회사소개</a> <a class="" href="aggregator.html">에그리게이터</a> <a class="" href="aggregator-what.html">에그리게이터란</a> <a class="" href="products.html">회사제품</a> <a class="" href="solutions.html">솔루션</a> <a class="" href="solutions-platform.html">플랫폼방식</a> <a class="" href="solutions-turnkey.html">턴키 라벨</a> <a class="" href="solutions-white-label.html">화이트 라벨</a> <a class="" href="solutions-crypto.html">암호화폐 기반</a> <a class="" href="solutions-fiat.html">각국 통화기반</a> <a class="" href="sports-api.html">스포츠 API</a> <a class="" href="sports-bc-custom.html">BC 자제개발 API</a> <a class="" href="sports-bc-sportsbook.html">BC 스포츠북 API</a> <a class="" href="sports-pinnacle.html">피나클 API</a> <a class="" href="sports-bti.html">BTI 스포츠북 API</a> <a class="" href="casino-slots-api.html">카지노/슬롯 API</a> <a class="" href="payments.html">결제 게이트웨이</a> <a class="" href="payments-wl.html">게이트웨이(화이트라벨)</a> <a class="active" href="partners.html">파트너</a> <a class="" href="licenses.html">라이센스</a> <a class="" href="pricing.html">비용문의</a></nav>
+<body class="theme-bright">
+  <header class="topnav">
+    <div class="brand">CP10</div>
+    <nav aria-label="주요 카테고리">
+      <ul class="menu">
+        <li><a href="#about">회사소개</a></li>
+        <li><a href="#products">제품</a></li>
+        <li><a href="#solutions">솔루션</a></li>
+        <li><a href="#casino-api">카지노·슬롯 API</a></li>
+        <li><a href="#sports-api">스포츠 API</a></li>
+        <li><a href="#license-1">라이센스</a></li>
+        <li><a href="#partners">파트너사</a></li>
+        <li><a href="#license-2">라이센스</a></li>
+        <li><a href="#pricing">비용안내</a></li>
+        <li><a href="#contact">문의</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <section class="wrap">
-    <button id="prevBtn" class="nav" aria-label="Previous">◀</button>
-    <div id="rail" class="rail" aria-label="Partners carousel"></div>
-    <button id="nextBtn" class="nav" aria-label="Next">▶</button>
-  </section>
-  <div class="stage" id="stage" aria-hidden="true">
-    <div class="pillar"></div>
-    <div class="platform" id="platform"></div>
-  </div>
-  <aside id="infoPanel" class="info-panel" aria-live="polite">
-    <img id="infoLogo" alt="" />
-    <div class="info-text">
-      <h2 id="infoName" class="neon3d"></h2>
-      <p id="infoDesc" class="neon3d small"></p>
+  <!-- 센터 중간의 빈 공간: 클릭된 프로바이더가 이곳에 1.5배/3D로 표시됩니다 -->
+  <section id="hero" class="hero">
+    <div id="provider-stage" class="provider-stage empty" aria-live="polite">
+      <p class="stage-hint">파트너 로고를 클릭하면 이 영역에 확대/포커스로 표시됩니다.</p>
     </div>
-  </aside>
+  </section>
+
+  <main>
+    <section id="partners" class="partners">
+      <h2>파트너사</h2>
+      <div class="provider-grid">
+        <!-- 예시 카드들 (자산 경로는 사용자의 기존 자산 구조에 맞춰 교체) -->
+        <button class="provider-card theme-evolution" data-brand="evolution" data-title="Evolution">
+          <img src="assets/partners/evolution.png" alt="Evolution 로고" loading="lazy" />
+          <span>Evolution</span>
+        </button>
+        <button class="provider-card theme-pragmatic" data-brand="pragmatic" data-title="Pragmatic Play">
+          <img src="assets/partners/pragmatic.png" alt="Pragmatic Play 로고" loading="lazy" />
+          <span>Pragmatic</span>
+        </button>
+        <button class="provider-card theme-digitain" data-brand="digitain" data-title="Digitain">
+          <img src="assets/partners/digitain.png" alt="Digitain 로고" loading="lazy" />
+          <span>Digitain</span>
+        </button>
+        <button class="provider-card theme-softswiss" data-brand="softswiss" data-title="SoftSwiss">
+          <img src="assets/partners/softswiss.png" alt="SoftSwiss 로고" loading="lazy" />
+          <span>SoftSwiss</span>
+        </button>
+        <button class="provider-card theme-betconstruct" data-brand="betconstruct" data-title="BetConstruct">
+          <img src="assets/partners/betconstruct.png" alt="BetConstruct 로고" loading="lazy" />
+          <span>BetConstruct</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 이하 섹션은 목차 앵커용 더미. 실제 컨텐츠로 교체하세요. -->
+    <section id="about" class="section-dummy"><h3>회사소개</h3></section>
+    <section id="products" class="section-dummy"><h3>제품</h3></section>
+    <section id="solutions" class="section-dummy"><h3>솔루션</h3></section>
+    <section id="casino-api" class="section-dummy"><h3>카지노·슬롯 API</h3></section>
+    <section id="sports-api" class="section-dummy"><h3>스포츠 API</h3></section>
+    <section id="license-1" class="section-dummy"><h3>라이센스</h3></section>
+    <section id="license-2" class="section-dummy"><h3>라이센스(추가)</h3></section>
+    <section id="pricing" class="section-dummy"><h3>비용안내</h3></section>
+    <section id="contact" class="section-dummy"><h3>문의</h3></section>
+  </main>
+
   <script src="partners.js"></script>
 </body>
 </html>
