@@ -1,0 +1,1 @@
+document.getElementById('shareTg')?.addEventListener('click', function(){ this.href='https://t.me/share/url?url='+encodeURIComponent('https://cp10.example')+'&text='+encodeURIComponent('[CP10 견적 문의]'); });
