@@ -1,1 +1,82 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>비용 문의 · CP10</title><link rel="stylesheet" href="assets/style.css"/></head><body><header><div class="container nav"><div class="brand">CP10</div><nav><a href="index.html">홈</a><a href="about.html">회사소개</a><a href="aggregator.html">애그리게이터</a><a href="solutions.html">솔루션</a><a href="sports-api.html">스포츠 API</a><a href="casino-api.html">카지노·슬롯 API</a><a href="payments.html">결제</a><a href="partners.html">파트너</a><a href="license.html">라이센스</a><a href="pricing.html" class="active">비용문의</a></nav><div><a class="btn outline" href="pricing.html">견적 문의</a></div></div></header><section><div class="container"><h2>비용 문의</h2><p class="sub">아래 10문항 체크 후 텔레그램으로 연결됩니다.</p><div class="card"><div class="body"><div class="form-grid form-2"><div class="row"><label>이름</label><input id="f_name" placeholder="Your name"/></div><div class="row"><label>텔레그램 ID</label><input id="f_tg" placeholder="@your_telegram"/></div><div class="row"><label>회사명</label><input id="f_company" placeholder="Company"/></div></div><div class="mt-6 form-grid"><div class="row"><label>1) 대상 지역(복수선택)</label><div class="checks" id="regions"><label class="check"><input type="checkbox" value="SEA(동남아)"/> SEA(동남아)</label><label class="check"><input type="checkbox" value="KR 제외 아시아"/> KR 제외 아시아</label><label class="check"><input type="checkbox" value="LATAM"/> LATAM</label><label class="check"><input type="checkbox" value="EU"/> EU</label><label class="check"><input type="checkbox" value="MENA"/> MENA</label><label class="check"><input type="checkbox" value="Oceania"/> Oceania</label></div></div><div class="row"><label>2) 희망 운영 모델(복수선택)</label><div class="checks" id="model"><label class="check"><input type="checkbox" value="플랫폼"/> 플랫폼</label><label class="check"><input type="checkbox" value="턴키 라벨"/> 턴키 라벨</label><label class="check"><input type="checkbox" value="화이트라벨"/> 화이트라벨</label><label class="check"><input type="checkbox" value="암호화폐 기반"/> 암호화폐 기반</label><label class="check"><input type="checkbox" value="각국 통화 기반"/> 각국 통화 기반</label><label class="check"><input type="checkbox" value="하이브리드"/> 하이브리드</label></div></div><div class="row"><label>3) 스포츠북 선호(복수선택)</label><div class="checks" id="sportsbook"><label class="check"><input type="checkbox" value="Pinnacle"/> Pinnacle</label><label class="check"><input type="checkbox" value="BetConstruct"/> BetConstruct</label><label class="check"><input type="checkbox" value="BTI"/> BTI</label><label class="check"><input type="checkbox" value="Others"/> Others</label></div></div><div class="row"><label>4) 카지노/슬롯 선호(복수선택)</label><div class="checks" id="casino"><label class="check"><input type="checkbox" value="Evolution"/> Evolution</label><label class="check"><input type="checkbox" value="Pragmatic Play"/> Pragmatic Play</label><label class="check"><input type="checkbox" value="PG Soft"/> PG Soft</label><label class="check"><input type="checkbox" value="Play’n GO"/> Play’n GO</label><label class="check"><input type="checkbox" value="Hacksaw"/> Hacksaw</label><label class="check"><input type="checkbox" value="Others"/> Others</label></div></div><div class="row"><label>5) 결제 수단(복수선택)</label><div class="checks" id="payment"><label class="check"><input type="checkbox" value="USDT(크립토)"/> USDT(크립토)</label><label class="check"><input type="checkbox" value="BTC/ETH"/> BTC/ETH</label><label class="check"><input type="checkbox" value="현지 통화"/> 현지 통화</label><label class="check"><input type="checkbox" value="전자지갑"/> 전자지갑</label><label class="check"><input type="checkbox" value="카드"/> 카드</label><label class="check"><input type="checkbox" value="가상계좌"/> 가상계좌</label></div></div><div class="row"><label>6) KYC 정책</label><select id="kyc"><option value="">선택</option><option>Basic (이메일/휴대폰)</option><option>Standard (정부ID/얼굴)</option><option>Enhanced (소득/거주 증빙)</option></select></div><div class="row"><label>7) 라이센스 관심(복수선택)</label><div class="checks" id="license"><label class="check"><input type="checkbox" value="Curaçao"/> Curaçao</label><label class="check"><input type="checkbox" value="Malta(MGA)"/> Malta(MGA)</label><label class="check"><input type="checkbox" value="Isle of Man"/> Isle of Man</label><label class="check"><input type="checkbox" value="Philippines(PAGCOR)"/> Philippines(PAGCOR)</label><label class="check"><input type="checkbox" value="Others"/> Others</label></div></div><div class="row"><label>8) 통화/정산 기준(복수선택)</label><div class="checks" id="currency"><label class="check"><input type="checkbox" value="Crypto"/> Crypto</label><label class="check"><input type="checkbox" value="USD"/> USD</label><label class="check"><input type="checkbox" value="EUR"/> EUR</label><label class="check"><input type="checkbox" value="KRW"/> KRW</label><label class="check"><input type="checkbox" value="Multi-currency"/> Multi-currency</label></div></div><div class="row"><label>9) 예상 월 GGR 규모</label><select id="ggr"><option value="">선택</option><option>&lt; 1억 원</option><option>1억 ~ 5억 원</option><option>5억 ~ 10억 원</option><option>10억 ~ 50억 원</option><option>50억 원 이상</option></select></div><div class="row"><label>10) 오픈 희망 시점</label><select id="timeline"><option value="">선택</option><option>2주 이내</option><option>1–2개월</option><option>3–6개월</option><option>6개월 이상</option></select></div><div class="row"><label>메모(선택)</label><textarea id="notes" placeholder="특이사항/연동 이력/리스크 정책 등"></textarea></div></div><div class="mt-6 flex between items"><a id="shareTg" class="btn primary" href="#" target="_blank" rel="noreferrer">텔레그램으로 공유</a><span class="small mut">※ 제출 시 텔레그램 메시지 작성 화면이 열립니다.</span></div></div></div></section><script src="assets/app.js"></script><footer class="footer"><div class="container flex between items"><div><div style="font-weight:700">CP10</div><div class="small">Aggregator · API · Payments</div><div class="small mut">Design-only; all trademarks belong to their respective owners.</div></div><div class="flex gap-12"><a class="small" href="solutions.html">솔루션</a><a class="small" href="sports-api.html">스포츠 API</a><a class="small" href="casino-api.html">카지노·슬롯</a><a class="small" href="pricing.html">비용 문의</a></div></div></footer></body></html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>비용 문의</title>
+  <link rel="stylesheet" href="site.css">
+  <style>
+    form{max-width:860px;margin:20px auto;background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:16px;padding:16px;box-shadow:0 10px 20px rgba(2,6,23,.06)}
+    h2{margin:6px 0 16px} .row{display:grid;grid-template-columns:1fr 1fr;gap:14px} .row>div{background:#f8fafc;border-radius:12px;padding:12px;border:1px solid rgba(15,23,42,.06)}
+    label{display:block;margin-bottom:8px;font-weight:700} .q{display:flex;flex-direction:column;gap:10px}
+    .submit{margin-top:16px;display:flex;gap:10px;align-items:center} button{background:#2563eb;color:#fff;border:none;border-radius:10px;padding:12px 16px;cursor:pointer}
+    input[type="text"],input[type="email"]{padding:10px;border-radius:8px;border:1px solid #cbd5e1;width:100%}
+    .note{color:#64748b;font-size:14px;margin-top:6px}
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand"><span>CP10</span></div>
+    <nav class="menu"><a class="" href="index.html">홈</a> <a class="" href="about.html">회사소개</a> <a class="" href="aggregator.html">에그리게이터</a> <a class="" href="aggregator-what.html">에그리게이터란</a> <a class="" href="products.html">회사제품</a> <a class="" href="solutions.html">솔루션</a> <a class="" href="solutions-platform.html">플랫폼방식</a> <a class="" href="solutions-turnkey.html">턴키 라벨</a> <a class="" href="solutions-white-label.html">화이트 라벨</a> <a class="" href="solutions-crypto.html">암호화폐 기반</a> <a class="" href="solutions-fiat.html">각국 통화기반</a> <a class="" href="sports-api.html">스포츠 API</a> <a class="" href="sports-bc-custom.html">BC 자제개발 API</a> <a class="" href="sports-bc-sportsbook.html">BC 스포츠북 API</a> <a class="" href="sports-pinnacle.html">피나클 API</a> <a class="" href="sports-bti.html">BTI 스포츠북 API</a> <a class="" href="casino-slots-api.html">카지노/슬롯 API</a> <a class="" href="payments.html">결제 게이트웨이</a> <a class="" href="payments-wl.html">게이트웨이(화이트라벨)</a> <a class="" href="partners.html">파트너</a> <a class="" href="licenses.html">라이센스</a> <a class="active" href="pricing.html">비용문의</a></nav>
+  </header>
+
+  <main class="container">
+    <h1 class="section-title">비용 문의</h1>
+    <p class="lead">아래 체크리스트를 제출하면 텔레그램으로 연결해 드립니다. (예시 핸들: @cp10_support — 코드에서 변경 가능)</p>
+    <form id="qform">
+      <div class="row">
+        <div class="q"><label>1) 비즈니스 모델</label>
+          <label><input type="checkbox" name="model" value="Aggregation"> Aggregation</label>
+          <label><input type="checkbox" name="model" value="Turnkey"> Turnkey</label>
+          <label><input type="checkbox" name="model" value="White Label"> White Label</label>
+        </div>
+        <div class="q"><label>2) 런칭 일정</label>
+          <label><input type="radio" name="launch" value="즉시"> 즉시</label>
+          <label><input type="radio" name="launch" value="1~3개월"> 1~3개월</label>
+          <label><input type="radio" name="launch" value="3개월+"> 3개월+</label>
+        </div>
+        <div class="q"><label>3) 주요 대상 지역</label><input name="markets" type="text" placeholder="예: LATAM, SEA"></div>
+        <div class="q"><label>4) 결제 통화</label>
+          <label><input type="checkbox" name="curr" value="USD"> USD</label>
+          <label><input type="checkbox" name="curr" value="EUR"> EUR</label>
+          <label><input type="checkbox" name="curr" value="KRW"> KRW</label>
+          <label><input type="checkbox" name="curr" value="Crypto"> Crypto</label>
+        </div>
+        <div class="q"><label>5) KYC/리스크 정책</label>
+          <label><input type="radio" name="kyc" value="엄격"> 엄격</label>
+          <label><input type="radio" name="kyc" value="표준"> 표준</label>
+          <label><input type="radio" name="kyc" value="유연"> 유연</label>
+        </div>
+        <div class="q"><label>6) 원하는 상품군</label>
+          <label><input type="checkbox" name="prod" value="스포츠북"> 스포츠북</label>
+          <label><input type="checkbox" name="prod" value="카지노/슬롯"> 카지노/슬롯</label>
+          <label><input type="checkbox" name="prod" value="결제 게이트웨이"> 결제 게이트웨이</label>
+        </div>
+        <div class="q"><label>7) White/Turnkey 필요</label>
+          <label><input type="radio" name="wl" value="화이트 라벨"> 화이트 라벨</label>
+          <label><input type="radio" name="wl" value="턴키"> 턴키</label>
+          <label><input type="radio" name="wl" value="상담 후"> 상담 후</label>
+        </div>
+        <div class="q"><label>8) 예상 월 GGR</label>
+          <label><input type="radio" name="ggr" value="< 10K"> &lt; 10K</label>
+          <label><input type="radio" name="ggr" value="10K~100K"> 10K~100K</label>
+          <label><input type="radio" name="ggr" value="100K+"> 100K+</label>
+        </div>
+        <div class="q"><label>9) 팀 규모</label>
+          <label><input type="radio" name="team" value="1~3명"> 1~3명</label>
+          <label><input type="radio" name="team" value="4~10명"> 4~10명</label>
+          <label><input type="radio" name="team" value="10명+"> 10명+</label>
+        </div>
+        <div class="q"><label>10) 연락처/텔레그램</label>
+          <input name="contact" type="text" placeholder="이메일 또는 Telegram ID">
+          <div class="note">제출 시 텔레그램으로 연결됩니다. 핸들 변경: site.js의 TELEGRAM 상수</div>
+        </div>
+      </div>
+      <div class="submit">
+        <button type="submit">질문서 제출 후 텔레그램 연결</button>
+      </div>
+    </form>
+  </main>
+  <script src="site.js"></script>
+</body>
+</html>

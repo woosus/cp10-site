@@ -1,125 +1,65 @@
 :root{
-  --dur-main: 4800ms;       /* 메인 이동 (느림) */
-  --dur-panel: 4800ms;      /* 패널 등장 (동일 속도) */
-  --dur-others: 2600ms;     /* 비선택 카드 하강 */
+  --dur-main: 4800ms;
+  --dur-panel: 4800ms;
+  --dur-others: 2600ms;
   --easing: cubic-bezier(.77,0,.175,1);
   --neon-white: rgba(255,255,255,1);
-  --neon-white-soft: rgba(255,255,255,.65);
   --neon-edge: rgba(180,200,255,.55);
-  --green: #00ff95;         /* 네온 그린 */
+  --green: #00ff95;
+  --bg1:#f6f9ff; --bg2:#ecf3ff; --ink:#0f172a;
 }
-
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;background:#0b0f2b;color:#fff;font-family:ui-sans-serif,system-ui,'Segoe UI',Roboto,Helvetica,Arial;overflow:hidden}
+html,body{margin:0;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:var(--ink);font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial}
+body{overflow:hidden}
+.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px;background:rgba(255,255,255,.85);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid rgba(15,23,42,.06)}
+.brand span{font-weight:800}
+.menu a{margin:0 8px;padding:8px 10px;border-radius:10px;color:#334155;text-decoration:none;font-weight:600}
+.menu a:hover{background:#edf2ff}
+.menu a.active{background:#dbeafe;color:#0f172a;border:1px solid #bfdbfe}
 
-/* 타이틀 */
-.title{font-size:28px;font-weight:700;text-align:center;padding:16px 12px}
-
-/* 수동 캐러셀 (스크롤바 숨김) */
-.wrap{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;padding:4px 16px}
-.nav{appearance:none;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;
-  width:40px;height:40px;border-radius:10px;cursor:pointer;z-index:5}
-.nav:hover{background:rgba(255,255,255,.12)}
-.rail{display:flex;gap:18px;overflow-x:auto;overflow-y:hidden;padding:12px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;height:300px}
+.wrap{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;padding:8px 16px;margin-top:6px}
+.nav{appearance:none;border:1px solid rgba(15,23,42,.12);background:#fff;color:#0f172a;
+  width:42px;height:42px;border-radius:10px;cursor:pointer;z-index:5;box-shadow:0 6px 16px rgba(2,6,23,.08)}
+.nav:hover{background:#f1f5ff}
+.rail{display:flex;gap:18px;overflow-x:auto;overflow-y:hidden;padding:12px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;height:320px}
 .rail::-webkit-scrollbar{display:none}
 .rail{-ms-overflow-style:none;scrollbar-width:none}
-.card{flex:0 0 360px;background:#fff;border-radius:18px;box-shadow:0 10px 24px rgba(0,0,0,.35);color:#111;
-  transition:transform .3s ease,filter .3s ease,opacity .3s ease;position:relative}
-.card img{width:100%;height:220px;object-fit:contain;background:#fff;border-radius:18px 18px 0 0;display:block}
-.card .cap{padding:10px 14px;text-align:center;font-weight:600;font-size:14px}
+.card{flex:0 0 360px;background:#fff;border-radius:18px;box-shadow:0 10px 24px rgba(2,6,23,.14);color:#111;
+  transition:transform .3s ease,filter .3s ease,opacity .3s ease;position:relative;border:1px solid rgba(15,23,42,.06)}
+.card img{width:100%;height:230px;object-fit:contain;background:#fff;border-radius:18px 18px 0 0;display:block}
+.card .cap{padding:10px 14px;text-align:center;font-weight:700;font-size:16px}
 .card:hover{transform:translateY(-4px)}
+.card.sink{opacity:0;transform:translateY(180px) scale(.88);transition:transform var(--dur-others) ease,opacity var(--dur-others) ease}
 
-/* 선택 시 다른 카드가 땅으로 내려가듯 사라짐 */
-.card.sink{opacity:0;transform:translateY(180px) scale(.85);transition:transform var(--dur-others) ease,opacity var(--dur-others) ease}
+/* Stage: white neon + pillar */
+.stage{position:fixed;left:50%;bottom:110px;transform:translateX(-50%) translateY(18px);z-index:10;pointer-events:auto;perspective:1000px;transition:transform 900ms var(--easing)}
+.pillar{position:absolute;left:50%;bottom:45px;transform:translateX(-50%) rotateX(12deg);
+  width:220px;height:140px;border-radius:100px/50px;opacity:0;background:radial-gradient(ellipse at center, rgba(255,255,255,.22) 0%, rgba(200,220,255,.12) 40%, rgba(0,0,0,0) 70%);
+  box-shadow: inset 0 0 48px rgba(255,255,255,.25);filter: blur(.2px);transition: opacity 1500ms var(--easing)}
+.platform{width:560px;height:90px;border-radius:50%;background:radial-gradient(ellipse at 50% 60%, rgba(255,255,255,.35) 0%, rgba(255,255,255,.18) 55%, rgba(255,255,255,.08) 80%, rgba(0,0,0,0) 100%);
+  box-shadow:0 0 18px rgba(255,255,255,.8),0 0 32px var(--neon-edge),0 0 54px rgba(180,200,255,.35);opacity:.9;filter:saturate(118%);
+  position:relative; transform:translateY(26px); transition:transform 1600ms var(--easing), filter 1600ms var(--easing), box-shadow 1600ms var(--easing), opacity 1600ms var(--easing)}
+.platform::before,.platform::after{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none}
+.platform::before{width:520px;height:24px;background:radial-gradient(closest-side, rgba(255,255,255,.45), rgba(0,0,0,0));filter:blur(6px)}
+.platform::after{width:520px;height:82px;border:2px solid rgba(255,255,255,.35);box-shadow:inset 0 0 28px rgba(255,255,255,.28);opacity:.7}
+.stage.active{transform:translate(-50%,-6px)}
+.stage.active .pillar{opacity:1}
+.stage.active .platform{transform:translateY(0);opacity:1;box-shadow:0 0 22px rgba(255,255,255,.9),0 0 40px rgba(200,220,255,.7),0 0 72px rgba(180,200,255,.55)}
 
-/* 화이트 네온 무대 (기둥 포함, 3D) */
-.stage{
-  position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(20px);
-  z-index:10;pointer-events:auto; /* 유령 클릭으로 복귀 가능 */
-  transition:transform 900ms var(--easing);
-  perspective:1000px;
-}
-/* 기둥(지면에서 솟아오르는 원기둥) */
-.pillar{
-  position:absolute;left:50%;bottom:45px;transform:translateX(-50%) rotateX(12deg);
-  width:220px;height:140px;border-radius:100px/50px;opacity:0;
-  background: radial-gradient(ellipse at center, rgba(255,255,255,.22) 0%, rgba(200,220,255,.12) 40%, rgba(0,0,0,0) 70%);
-  box-shadow: inset 0 0 48px rgba(255,255,255,.25);
-  filter: blur(0.2px);
-  transition: opacity 1500ms var(--easing);
-}
-/* 플랫폼(상판) */
-.platform{
-  width:560px;height:90px;border-radius:50%;
-  background: radial-gradient(ellipse at 50% 60%, rgba(255,255,255,.35) 0%, rgba(255,255,255,.18) 55%, rgba(255,255,255,.08) 80%, rgba(0,0,0,0) 100%);
-  box-shadow:
-    0 0 18px var(--neon-white-soft),
-    0 0 32px var(--neon-edge),
-    0 0 54px rgba(180,200,255,.35);
-  opacity:.85; filter:saturate(118%);
-  position:relative; transform:translateY(26px);
-  transition:transform 1600ms var(--easing), filter 1600ms var(--easing), box-shadow 1600ms var(--easing), opacity 1600ms var(--easing);
-}
-/* 링/엣지 */
-.platform::before, .platform::after{
-  content:""; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
-  border-radius:50%; pointer-events:none;
-}
-.platform::before{ width:520px; height:24px; background:radial-gradient(closest-side, rgba(255,255,255,.45), rgba(0,0,0,0)); filter:blur(6px); }
-.platform::after{ width:520px; height:82px; border:2px solid rgba(255,255,255,.35); box-shadow:inset 0 0 28px rgba(255,255,255,.28); opacity:.7; }
-/* 활성화 시 */
-.stage.active{ transform:translate(-50%, -8px); }
-.stage.active .pillar{ opacity:1; }
-.stage.active .platform{ transform:translateY(0); opacity:1;
-  box-shadow: 0 0 22px rgba(255,255,255,.85), 0 0 40px rgba(200,220,255,.7), 0 0 72px rgba(180,200,255,.55);
-  filter:saturate(140%);
-}
+/* Ghost wrapper + inner (float only on inner to avoid snap-back) */
+.ghost{position:fixed;left:0;top:0;margin:0;z-index:999;border-radius:18px;box-shadow:0 18px 48px rgba(0,0,0,.2);will-change:transform,opacity;cursor:pointer;background:#fff;border:1px solid rgba(15,23,42,.06);overflow:hidden}
+.ghost-inner{width:100%;height:100%}
+.ghost-inner.float{animation:float 6s ease-in-out infinite alternate}
+@keyframes float{from{transform:translateY(-8px)}to{transform:translateY(-36px)}}
 
-/* 스테이지로 이동하는 유령 카드(FLIP 애니메이션용) + 둥실둥실 */
-.ghost{position:fixed;left:0;top:0;margin:0;z-index:999;border-radius:18px;
-  box-shadow:0 18px 48px rgba(0,0,0,.45);will-change:transform,opacity;cursor:pointer}
-.ghost.float{animation:float 6s ease-in-out infinite alternate}
-@keyframes float{from{transform:translateY(-10px) scale(.8)}to{transform:translateY(-42px) scale(.8)}}
-
-/* 설명 패널(무대 하단에서 천천히 올라옴) + 네온 그린 3D + 글자별 flicker */
-.info-panel{
-  position:fixed;left:50%;bottom:18px;transform:translate(-50%,160px);
-  display:flex;gap:16px;align-items:center;background:rgba(10,14,30,.72);backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:14px 18px;opacity:0;z-index:20;
-  transition:transform var(--dur-panel) var(--easing),opacity var(--dur-panel) var(--easing)
-}
+/* Info panel (neon green 3D + per-letter flicker) */
+.info-panel{position:fixed;left:50%;bottom:18px;transform:translate(-50%,160px);display:flex;gap:16px;align-items:center;
+  background:rgba(255,255,255,.78);backdrop-filter:saturate(140%) blur(8px);border:1px solid rgba(15,23,42,.08);
+  border-radius:16px;padding:14px 18px;opacity:0;z-index:20;transition:transform var(--dur-panel) var(--easing),opacity var(--dur-panel) var(--easing)}
 .info-panel.show{transform:translate(-50%,0);opacity:1}
-.info-panel img{width:120px;height:58px;object-fit:contain;background:#fff;border-radius:10px;padding:6px;box-shadow:0 0 18px rgba(0,0,0,.35)}
-.neon3d{color:var(--green);letter-spacing:.5px;
-  text-shadow:
-    0 0 6px rgba(0,255,149,.6),
-    0 0 14px rgba(0,255,210,.4),
-    1px 1px 0 rgba(0,0,0,.25),
-    2px 2px 0 rgba(0,0,0,.2);
-  filter:drop-shadow(0 0 2px rgba(0,255,149,.4));
-}
-.neon3d.small{font-size:14px;color:rgba(200,255,240,.95)}
-
-/* 글자별 flicker */
-.flicker span{
-  display:inline-block;
-  animation: flicker 1.8s linear infinite;
-  animation-delay: var(--delay, 0s);
-}
-@keyframes flicker{
-  0%{opacity:.85; filter:brightness(1) drop-shadow(0 0 2px rgba(0,255,149,.3));}
-  5%{opacity:.4;  filter:brightness(.6) drop-shadow(0 0 0 rgba(0,0,0,0));}
-  8%{opacity:.95; filter:brightness(1.2) drop-shadow(0 0 4px rgba(0,255,149,.5));}
-  15%{opacity:.5}
-  22%{opacity:1}
-  38%{opacity:.7}
-  55%{opacity:.95}
-  72%{opacity:.5}
-  100%{opacity:1}
-}
-
-/* 반응형 */
-@media (max-width:720px){
-  .card{flex-basis:300px}
-  .platform{width:420px;height:70px}
-}
+.info-panel img{width:124px;height:60px;object-fit:contain;background:#fff;border-radius:10px;padding:6px;box-shadow:0 0 18px rgba(2,6,23,.12)}
+.neon3d{color:#059669;letter-spacing:.5px;text-shadow:0 0 6px rgba(16,185,129,.55),0 0 14px rgba(16,185,129,.35),1px 1px 0 rgba(0,0,0,.2),2px 2px 0 rgba(0,0,0,.12)}
+.neon3d.small{font-size:16px;color:#0f766e}
+.flicker span{display:inline-block;animation:flicker 1.8s linear infinite;animation-delay: var(--delay, 0s)}
+@keyframes flicker{0%{opacity:.95;filter:brightness(1)}5%{opacity:.4;filter:brightness(.7)}8%{opacity:1}15%{opacity:.6}22%{opacity:1}38%{opacity:.75}55%{opacity:1}72%{opacity:.6}100%{opacity:1}}

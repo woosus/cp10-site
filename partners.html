@@ -1,33 +1,34 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CP10 Partners — NEO White</title>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CP10 Partners — Bright v2.3</title>
+  <link rel="stylesheet" href="site.css" />
   <link rel="stylesheet" href="partners.css" />
 </head>
 <body>
-  <header style="text-align:center;padding:16px 12px;font-weight:700">CP10 Partners</header>
 
-  <div class="stage" id="stage" aria-hidden="true">
-    <div class="pillar"></div>
-    <div class="platform" id="platform"></div>
-  </div>
+  <header class="topbar">
+    <div class="brand"><span>CP10</span></div>
+    <nav class="menu"><a class="" href="index.html">홈</a> <a class="" href="about.html">회사소개</a> <a class="" href="aggregator.html">에그리게이터</a> <a class="" href="aggregator-what.html">에그리게이터란</a> <a class="" href="products.html">회사제품</a> <a class="" href="solutions.html">솔루션</a> <a class="" href="solutions-platform.html">플랫폼방식</a> <a class="" href="solutions-turnkey.html">턴키 라벨</a> <a class="" href="solutions-white-label.html">화이트 라벨</a> <a class="" href="solutions-crypto.html">암호화폐 기반</a> <a class="" href="solutions-fiat.html">각국 통화기반</a> <a class="" href="sports-api.html">스포츠 API</a> <a class="" href="sports-bc-custom.html">BC 자제개발 API</a> <a class="" href="sports-bc-sportsbook.html">BC 스포츠북 API</a> <a class="" href="sports-pinnacle.html">피나클 API</a> <a class="" href="sports-bti.html">BTI 스포츠북 API</a> <a class="" href="casino-slots-api.html">카지노/슬롯 API</a> <a class="" href="payments.html">결제 게이트웨이</a> <a class="" href="payments-wl.html">게이트웨이(화이트라벨)</a> <a class="active" href="partners.html">파트너</a> <a class="" href="licenses.html">라이센스</a> <a class="" href="pricing.html">비용문의</a></nav>
+  </header>
 
   <section class="wrap">
     <button id="prevBtn" class="nav" aria-label="Previous">◀</button>
     <div id="rail" class="rail" aria-label="Partners carousel"></div>
     <button id="nextBtn" class="nav" aria-label="Next">▶</button>
   </section>
-
+  <div class="stage" id="stage" aria-hidden="true">
+    <div class="pillar"></div>
+    <div class="platform" id="platform"></div>
+  </div>
   <aside id="infoPanel" class="info-panel" aria-live="polite">
-    <img id="infoLogo" alt="">
+    <img id="infoLogo" alt="" />
     <div class="info-text">
       <h2 id="infoName" class="neon3d"></h2>
       <p id="infoDesc" class="neon3d small"></p>
     </div>
   </aside>
-
   <script src="partners.js"></script>
 </body>
 </html>
