@@ -1,1 +1,33 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>파트너 · CP10</title><link rel="stylesheet" href="assets/style.css"/></head><body><header><div class="container nav"><div class="brand">CP10</div><nav><a href="index.html">홈</a><a href="about.html">회사소개</a><a href="aggregator.html">애그리게이터</a><a href="solutions.html">솔루션</a><a href="sports-api.html">스포츠 API</a><a href="casino-api.html">카지노·슬롯 API</a><a href="payments.html">결제</a><a href="partners.html" class="active">파트너</a><a href="license.html">라이센스</a><a href="pricing.html">비용문의</a></nav><div><a class="btn outline" href="pricing.html">견적 문의</a></div></div></header><section><div class="container"><h2>파트너 소개</h2><p class="sub">이미지 업로드 시, 각 브랜드의 특징(2~30자)을 카드에 노출합니다.</p><div class="grid g-3" id="partnerGrid"><div class="partner" data-brand="Evolution Gaming" data-note="라이브 카지노 분야의 글로벌 표준 리더"><div class="logo"><img src="partners/evolution-gaming.png" alt="Evolution Gaming" loading="lazy"/></div><div class="meta"><div class="brand">Evolution Gaming</div><div class="note">라이브 카지노 분야의 글로벌 표준 리더</div><div class="actions"><span class="chip">API</span><span class="chip">Live</span><span class="chip">EU</span></div></div></div><div class="partner" data-brand="Pragmatic Play" data-note="슬롯·라이브·게임쇼까지 멀티 콘텐츠 강자"><div class="logo"><img src="partners/pragmatic-play.png" alt="Pragmatic Play" loading="lazy"/></div><div class="meta"><div class="brand">Pragmatic Play</div><div class="note">슬롯·라이브·게임쇼까지 멀티 콘텐츠 강자</div><div class="actions"><span class="chip">Slots</span><span class="chip">Live</span><span class="chip">LATAM</span></div></div></div></div></div></section><footer class="footer"><div class="container flex between items"><div><div style="font-weight:700">CP10</div><div class="small">Aggregator · API · Payments</div><div class="small mut">Design-only; all trademarks belong to their respective owners.</div></div><div class="flex gap-12"><a class="small" href="solutions.html">솔루션</a><a class="small" href="sports-api.html">스포츠 API</a><a class="small" href="casino-api.html">카지노·슬롯</a><a class="small" href="pricing.html">비용 문의</a></div></div></footer></body></html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CP10 Partners — NEO White</title>
+  <link rel="stylesheet" href="partners.css" />
+</head>
+<body>
+  <header style="text-align:center;padding:16px 12px;font-weight:700">CP10 Partners</header>
+
+  <div class="stage" id="stage" aria-hidden="true">
+    <div class="pillar"></div>
+    <div class="platform" id="platform"></div>
+  </div>
+
+  <section class="wrap">
+    <button id="prevBtn" class="nav" aria-label="Previous">◀</button>
+    <div id="rail" class="rail" aria-label="Partners carousel"></div>
+    <button id="nextBtn" class="nav" aria-label="Next">▶</button>
+  </section>
+
+  <aside id="infoPanel" class="info-panel" aria-live="polite">
+    <img id="infoLogo" alt="">
+    <div class="info-text">
+      <h2 id="infoName" class="neon3d"></h2>
+      <p id="infoDesc" class="neon3d small"></p>
+    </div>
+  </aside>
+
+  <script src="partners.js"></script>
+</body>
+</html>
