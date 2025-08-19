@@ -3,30 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CP10 Partners — v2</title>
+  <title>CP10 Partners — v2.1 NEO</title>
   <link rel="stylesheet" href="partners.css" />
 </head>
 <body>
   <header class="title">CP10 Partners</header>
 
   <!-- 네온 무대 (고정) -->
-  <div class="stage">
-    <div class="platform"></div>
+  <div class="stage" id="stage">
+    <div class="platform" id="platform"></div>
   </div>
 
-  <!-- 수동 가로 스크롤 캐러셀 (자동 없음) -->
+  <!-- 수동 가로 스크롤 캐러셀 (자동 없음, 스크롤바 비표시) -->
   <section class="wrap">
     <button id="prevBtn" class="nav" aria-label="Previous">◀</button>
     <div id="rail" class="rail" aria-label="Partners carousel"></div>
     <button id="nextBtn" class="nav" aria-label="Next">▶</button>
   </section>
 
-  <!-- 클릭 후 설명 패널 -->
+  <!-- 클릭 후 설명 패널 (네온 그린 3D 텍스트) -->
   <aside id="infoPanel" class="info-panel" aria-live="polite">
     <img id="infoLogo" alt="" />
     <div class="info-text">
-      <h2 id="infoName"></h2>
-      <p id="infoDesc"></p>
+      <h2 id="infoName" class="neon3d"></h2>
+      <p id="infoDesc" class="neon3d small"></p>
     </div>
   </aside>
 

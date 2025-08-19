@@ -1,21 +1,24 @@
 :root{
-  /* 2.5배 느린 메인 모션 */
-  --dur-main: 4500ms;
+  --dur-main: 4500ms;       /* 2.5배 느린 메인 모션 */
   --dur-others: 2500ms;
   --easing: cubic-bezier(.77,0,.175,1);
+  --green: #00ff95;         /* 네온 그린 */
 }
 
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;background:#0b0f2b;color:#fff;font-family:ui-sans-serif,system-ui,'Segoe UI',Roboto,Helvetica,Arial}
+html,body{margin:0;height:100%;background:#0b0f2b;color:#fff;font-family:ui-sans-serif,system-ui,'Segoe UI',Roboto,Helvetica,Arial;overflow:hidden}
 
-.title{font-size:28px;font-weight:700;text-align:center;padding:24px 12px}
+/* 타이틀 */
+.title{font-size:28px;font-weight:700;text-align:center;padding:16px 12px}
 
-/* 수동 캐러셀 */
-.wrap{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;padding:8px 16px}
+/* 수동 캐러셀 (스크롤바 숨김) */
+.wrap{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;padding:4px 16px}
 .nav{appearance:none;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;
-  width:40px;height:40px;border-radius:10px;cursor:pointer}
+  width:40px;height:40px;border-radius:10px;cursor:pointer;z-index:5}
 .nav:hover{background:rgba(255,255,255,.12)}
-.rail{display:flex;gap:18px;overflow-x:auto;padding:12px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+.rail{display:flex;gap:18px;overflow-x:auto;overflow-y:hidden;padding:12px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;height:300px}
+.rail::-webkit-scrollbar{display:none}       /* Chrome/Safari */
+.rail{-ms-overflow-style:none;scrollbar-width:none} /* IE/Edge/Firefox */
 .card{flex:0 0 360px;background:#fff;border-radius:18px;box-shadow:0 10px 24px rgba(0,0,0,.35);color:#111;
   transition:transform .3s ease,filter .3s ease,opacity .3s ease;position:relative}
 .card img{width:100%;height:220px;object-fit:contain;background:#fff;border-radius:18px 18px 0 0;display:block}
@@ -26,26 +29,52 @@ html,body{margin:0;height:100%;background:#0b0f2b;color:#fff;font-family:ui-sans
 .card.sink{opacity:0;transform:translateY(180px) scale(.85);transition:transform var(--dur-others) ease,opacity var(--dur-others) ease}
 
 /* 무대(네온) */
-.stage{position:fixed;left:50%;bottom:120px;transform:translateX(-50%);z-index:10;pointer-events:none}
-.platform{width:560px;height:90px;border-radius:50%;
-  background: radial-gradient(ellipse at center, #ff00de 0%, #6a00ff 40%, #00d5ff 85%);
-  box-shadow: 0 0 18px #ff00de, 0 0 28px #6a00ff, 0 0 44px #00d5ff;opacity:.9;filter:saturate(115%)}
+.stage{position:fixed;left:50%;bottom:98px;transform:translateX(-50%);z-index:10;pointer-events:none;transition:transform 1200ms var(--easing)}
+.platform{
+  width:560px;height:90px;border-radius:50%;
+  background: radial-gradient(ellipse at 50% 60%, rgba(255,0,222,.28) 0%, rgba(106,0,255,.22) 40%, rgba(0,213,255,.18) 80%, rgba(0,0,0,0) 100%);
+  box-shadow:0 0 18px rgba(255,0,222,.5), 0 0 26px rgba(106,0,255,.45), 0 0 40px rgba(0,213,255,.4);
+  opacity:.85; filter:saturate(120%);
+  position:relative; transform:translateY(24px); transition:transform 1600ms var(--easing), filter 1600ms var(--easing), box-shadow 1600ms var(--easing), opacity 1600ms var(--easing);
+}
+/* 낮은 턱 느낌의 링들 */
+.platform::before, .platform::after{
+  content:""; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  border-radius:50%; pointer-events:none;
+}
+.platform::before{ width:520px; height:26px; background:radial-gradient(closest-side, rgba(0,255,200,.35), rgba(0,0,0,0)); filter:blur(6px); }
+.platform::after{ width:520px; height:80px; border:2px solid rgba(0,255,200,.35); box-shadow:inset 0 0 24px rgba(0,255,200,.25); opacity:.6; }
+/* 클릭 시 무대가 살짝 올라오고 빛이 세짐 */
+.stage.active .platform{ transform:translateY(0); opacity:1;
+  box-shadow:0 0 24px rgba(255,0,222,.7), 0 0 42px rgba(106,0,255,.6), 0 0 68px rgba(0,213,255,.6);
+  filter:saturate(140%); }
+.stage.active{ transform:translate(-50%,-8px); }
 
-/* 스테이지로 이동하는 유령 카드(FLIP 애니메이션용) */
+/* 스테이지로 이동하는 유령 카드(FLIP 애니메이션용) + 둥실둥실 */
 .ghost{position:fixed;left:0;top:0;margin:0;z-index:999;border-radius:18px;
   box-shadow:0 18px 48px rgba(0,0,0,.45);will-change:transform,opacity}
 .ghost.float{animation:float 5.5s ease-in-out infinite alternate}
 @keyframes float{from{transform:translateY(-10px) scale(.8)}to{transform:translateY(-40px) scale(.8)}}
 
-/* 설명 패널(무대 하단에서 천천히 올라옴) */
-.info-panel{position:fixed;left:50%;bottom:24px;transform:translate(-50%,160px);
-  display:flex;gap:16px;align-items:center;background:rgba(18,20,40,.92);backdrop-filter:blur(4px);
-  border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px 18px;opacity:0;z-index:20;
+/* 설명 패널(무대 하단에서 천천히 올라옴) + 네온 그린 3D 텍스트 */
+.info-panel{position:fixed;left:50%;bottom:20px;transform:translate(-50%,160px);
+  display:flex;gap:16px;align-items:center;background:rgba(10,14,30,.75);backdrop-filter:blur(8px);
+  border:1px solid rgba(0,255,149,.25);border-radius:16px;padding:14px 18px;opacity:0;z-index:20;
   transition:transform 1200ms var(--easing),opacity 1200ms var(--easing)}
 .info-panel.show{transform:translate(-50%,0);opacity:1}
-.info-panel img{width:96px;height:48px;object-fit:contain;background:#fff;border-radius:10px;padding:6px}
-.info-text h2{margin:0 0 4px;font-size:18px}
-.info-text p{margin:0;font-size:14px;color:#cfd6ff}
+.info-panel img{width:110px;height:56px;object-fit:contain;background:#fff;border-radius:10px;padding:6px;box-shadow:0 0 18px rgba(0,0,0,.35)}
+.neon3d{color:var(--green);letter-spacing:.5px;
+  text-shadow:
+    0 0 6px rgba(0,255,149,.6),
+    0 0 14px rgba(0,255,210,.4),
+    1px 1px 0 rgba(0,0,0,.25),
+    2px 2px 0 rgba(0,0,0,.2);
+  filter:drop-shadow(0 0 2px rgba(0,255,149,.4));
+}
+.neon3d.small{font-size:14px;color:rgba(180,255,225,.95)}
 
 /* 반응형 */
-@media (max-width:720px){ .card{flex-basis:300px} .platform{width:420px;height:70px} }
+@media (max-width:720px){
+  .card{flex-basis:300px}
+  .platform{width:420px;height:70px}
+}
