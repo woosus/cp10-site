@@ -1,28 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CP10 Partners v2</title>
+  <title>CP10 Partners — v2</title>
   <link rel="stylesheet" href="partners.css" />
 </head>
 <body>
+  <header class="title">CP10 Partners</header>
+
+  <!-- 네온 무대 (고정) -->
   <div class="stage">
     <div class="platform"></div>
   </div>
 
-  <h1 class="title">CP10 Partners</h1>
-  <section class="carousel">
-    <div class="partner" data-name="Evolution" data-desc="세계 최고의 라이브 카지노 프로바이더" style="background-image:url('assets/evolution.png')"></div>
-    <div class="partner" data-name="Pragmatic Play" data-desc="슬롯과 라이브 딜러 전문 브랜드" style="background-image:url('assets/pragmatic-play.png')"></div>
-    <div class="partner" data-name="Playtech" data-desc="스포츠북과 카지노 게임 선도" style="background-image:url('assets/playtech.png')"></div>
-    <div class="partner" data-name="NetEnt" data-desc="혁신적인 슬롯 디자인" style="background-image:url('assets/netent.png')"></div>
+  <!-- 수동 가로 스크롤 캐러셀 (자동 없음) -->
+  <section class="wrap">
+    <button id="prevBtn" class="nav" aria-label="Previous">◀</button>
+    <div id="rail" class="rail" aria-label="Partners carousel"></div>
+    <button id="nextBtn" class="nav" aria-label="Next">▶</button>
   </section>
 
-  <div id="infoPanel" class="info-panel hidden">
-    <h2 id="infoName"></h2>
-    <p id="infoDesc"></p>
-  </div>
+  <!-- 클릭 후 설명 패널 -->
+  <aside id="infoPanel" class="info-panel" aria-live="polite">
+    <img id="infoLogo" alt="" />
+    <div class="info-text">
+      <h2 id="infoName"></h2>
+      <p id="infoDesc"></p>
+    </div>
+  </aside>
 
   <script src="partners.js"></script>
 </body>
