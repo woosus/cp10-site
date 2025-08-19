@@ -18,6 +18,9 @@ const infoDesc = document.getElementById('infoDesc');
 const infoLogo = document.getElementById('infoLogo');
 const stage = document.getElementById('stage');
 
+let current = null;   // { card, ghost, fromRect }
+let lock = false;     // 애니메이션 중 외부 입력 차단
+
 // 렌더 (수동 스크롤, 스크롤바 숨김)
 partnersData.forEach((p, idx)=>{
   const card = document.createElement('div');
@@ -32,22 +35,22 @@ partnersData.forEach((p, idx)=>{
 
 // 수동 이동
 function cardWidth(){ const c=rail.querySelector('.card'); return c? c.getBoundingClientRect().width+18:360; }
-prevBtn.onclick = ()=> rail.scrollBy({left: -cardWidth()*2, behavior:'smooth'});
-nextBtn.onclick = ()=> rail.scrollBy({left:  cardWidth()*2, behavior:'smooth'});
+prevBtn.onclick = ()=> { pauseDrift(6000); rail.scrollBy({left: -cardWidth()*2, behavior:'smooth'}); };
+nextBtn.onclick = ()=> { pauseDrift(6000); rail.scrollBy({left:  cardWidth()*2, behavior:'smooth'}); };
 
-// ===== 바람에 흔들리는 듯한 초슬로우 드리프트(상호작용 시 일시정지) =====
+// ===== 초슬로우 드리프트 =====
 let driftId=null, driftStart=null, pausedUntil=0;
 function startDrift(){
   if(driftId) cancelAnimationFrame(driftId);
   driftStart = performance.now();
   const base = rail.scrollLeft;
-  const amplitude = Math.max(40, Math.min(120, rail.scrollWidth - rail.clientWidth)); // px
-  const period = 38000; // 38초 주기
+  const amplitude = Math.max(40, Math.min(120, rail.scrollWidth - rail.clientWidth));
+  const period = 42000; // 42초
   function frame(t){
-    if(t < pausedUntil){ driftId = requestAnimationFrame(frame); return; }
+    if(t < pausedUntil || current){ driftId = requestAnimationFrame(frame); return; }
     const dt = (t - driftStart) % period;
     const phase = dt / period * Math.PI * 2;
-    rail.scrollLeft = base + Math.sin(phase) * amplitude * 0.25; // 매우 작게
+    rail.scrollLeft = base + Math.sin(phase) * amplitude * 0.25;
     driftId = requestAnimationFrame(frame);
   }
   driftId = requestAnimationFrame(frame);
@@ -62,7 +65,9 @@ startDrift();
 
 // ===== 선택 애니메이션 (무대 상승 + 라이트업 + FLIP) =====
 function selectCard(card, p){
-  // 드리프트는 일시 정지
+  if(lock) return;
+  lock = true;
+  // 드리프트 잠시 정지
   pauseDrift(12000);
 
   // 다른 카드들 가라앉기
@@ -90,39 +95,73 @@ function selectCard(card, p){
   const targetTop  = pr.top - targetH*0.35;
   const dx = targetLeft - r.left, dy = targetTop - r.top;
 
+  // 이동
   ghost.style.transition = `transform var(--dur-main) var(--easing), opacity var(--dur-main) var(--easing)`;
   requestAnimationFrame(()=>{ ghost.style.transform = `translate(${dx}px, ${dy}px) scale(0.8)`; });
 
-  // 둥실둥실 효과 시작
-  setTimeout(()=>{ ghost.classList.add('float'); }, 1800);
+  // 둥실둥실 효과 시작 (도중 클릭으로 취소되는 걸 막기 위해 애니 끝난 뒤에 활성화)
+  setTimeout(()=>{ ghost.classList.add('float'); }, 2000);
 
-  // 설명 패널(네온 그린 3D) 표시
+  // 패널 표시 + 텍스트 flicker 준비
   setTimeout(()=>{
     infoName.textContent = p.name;
     infoDesc.textContent = p.desc || '';
     infoLogo.src = `./assets/partners/${p.slug}.png`; infoLogo.alt = p.name;
+    prepareFlicker(infoName); prepareFlicker(infoDesc);
     panel.classList.add('show');
-  }, 1600);
+  }, 200); // 패널은 같은 주기로 같이 올라오되, 보여짐은 천천히 (CSS duration으로 동기화)
 
-  // 바깥 클릭/ESC → 초기화
-  const cleanup = (restore=true)=>{
-    document.removeEventListener('keydown', onEsc);
-    document.removeEventListener('click', onOutside, true);
-    panel.classList.remove('show'); stage.classList.remove('active');
-    if(restore){
-      rail.querySelectorAll('.card').forEach(el => { el.classList.remove('sink'); el.style.visibility=''; });
-    }
-    ghost.remove();
-  };
-  function onEsc(e){ if(e.key==='Escape'){ cleanup(true); } }
-  function onOutside(e){
-    const isGhost = ghost.contains(e.target);
-    const isPanel = panel.contains(e.target);
-    const isCard  = rail.contains(e.target);
-    if(!isGhost && !isPanel && !isCard){ cleanup(true); }
-  }
+  // 애니 종료 후 잠금 해제 & 현재 선택 기억
+  setTimeout(()=>{ lock = false; current = { card, ghost, fromRect: r }; }, 4900);
+
+  // 무대의 유령(선택된 이미지)을 클릭하면 원위치로
+  ghost.addEventListener('click', ()=>{ if(lock) return; deselect(true); });
+  // ESC도 원위치
   document.addEventListener('keydown', onEsc);
-  document.addEventListener('click', onOutside, true);
+  function onEsc(e){ if(e.key==='Escape'){ deselect(true); } }
+}
+
+// 원위치 복귀
+function deselect(userAction=false){
+  if(!current || lock) return;
+  lock = true;
+  const { card, ghost, fromRect } = current;
+
+  // 패널 내리기, 무대 라이트다운
+  panel.classList.remove('show');
+  stage.classList.remove('active');
+
+  // 유령을 원래 자리로 되돌리는 FLIP
+  const gr = ghost.getBoundingClientRect();
+  const dx = fromRect.left - gr.left;
+  const dy = fromRect.top  - gr.top;
+  ghost.classList.remove('float');
+  ghost.style.transition = `transform var(--dur-main) var(--easing)`;
+  requestAnimationFrame(()=>{ ghost.style.transform = `translate(${dx}px, ${dy}px) scale(1)`; });
+
+  // 애니 종료 후 정리
+  setTimeout(()=>{
+    rail.querySelectorAll('.card').forEach(el => { el.classList.remove('sink'); });
+    card.style.visibility = '';
+    ghost.remove();
+    lock = false; current = null;
+    pauseDrift(4000);
+  }, 4900);
+}
+
+// 텍스트를 글자 단위로 쪼개고, 각 글자에 랜덤 딜레이 flicker 애니 부여
+function prepareFlicker(el){
+  const text = el.textContent;
+  el.textContent = '';
+  const wrap = document.createElement('span');
+  wrap.className = 'flicker';
+  for(const ch of text){
+    const s = document.createElement('span');
+    s.textContent = ch;
+    s.style.setProperty('--delay', (Math.random()*1.2).toFixed(2)+'s');
+    wrap.appendChild(s);
+  }
+  el.appendChild(wrap);
 }
 
 function makePlaceholder(name){
