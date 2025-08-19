@@ -1,1 +1,96 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>홈 · CP10</title><link rel="stylesheet" href="assets/style.css"/></head><body><header><div class="container nav"><div class="brand">CP10</div><nav><a href="index.html" class="active">홈</a><a href="about.html">회사소개</a><a href="aggregator.html">애그리게이터</a><a href="solutions.html">솔루션</a><a href="sports-api.html">스포츠 API</a><a href="casino-api.html">카지노·슬롯 API</a><a href="payments.html">결제</a><a href="partners.html">파트너</a><a href="license.html">라이센스</a><a href="pricing.html">비용문의</a></nav><div><a class="btn outline" href="pricing.html">견적 문의</a></div></div></header><div class="container hero"><span class="pill">Aggregator · API · Payments</span><h1>CP10 Aggregator & Sports/Casino API</h1><p class="lead">디지테인·소프트스위스급 구조를 바탕으로 한 API·플랫폼 통합. 스포츠북, 카지노·슬롯, 결제 게이트웨이까지 한 번에 연결합니다.</p><div class="mt-6 flex gap-12 items"><a class="btn primary" href="solutions.html">솔루션 보기</a><a class="btn outline" href="pricing.html">비용 문의</a></div></div><footer class="footer"><div class="container flex between items"><div><div style="font-weight:700">CP10</div><div class="small">Aggregator · API · Payments</div><div class="small mut">Design-only; all trademarks belong to their respective owners.</div></div><div class="flex gap-12"><a class="small" href="solutions.html">솔루션</a><a class="small" href="sports-api.html">스포츠 API</a><a class="small" href="casino-api.html">카지노·슬롯</a><a class="small" href="pricing.html">비용 문의</a></div></div></footer></body></html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CP10 — Partners</title>
+  <style>
+    body { background:#0a0f2c; color:white; font-family:sans-serif; margin:0; padding:0; }
+    header { padding:20px; text-align:center; }
+    .card { transition: transform 300ms ease, filter 300ms ease, opacity 300ms ease;
+            transform-style: preserve-3d; perspective:1000px; }
+    .card.active { transform: scale(1.5) rotateY(0deg); z-index:50; filter:brightness(1); opacity:1; }
+    .card.dimmed { transform: scale(0.2) rotateY(-8deg); filter:brightness(0.5); opacity:0.7; }
+    .carousel { display:flex; gap:16px; overflow-x:auto; padding-bottom:16px;
+                scroll-behavior:smooth; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; }
+    .carousel > div { scroll-snap-align:center; min-width:360px; }
+    .card img { width:100%; height:260px; object-fit:contain; background:white; display:block; }
+    .cap { padding:12px 16px; text-align:center; font-weight:600; font-size:14px; color:#111; background:white; }
+    .head { display:flex; align-items:center; justify-content:space-between; margin:0 20px 12px; }
+    .btn { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18);
+           color:#fff; padding:8px 12px; border-radius:10px; cursor:pointer; }
+    .btn:hover { background:rgba(255,255,255,.14); }
+  </style>
+</head>
+<body>
+  <header><h1>CP10 Partners</h1></header>
+
+  <section>
+    <div class="head">
+      <h2>Verified Providers</h2>
+      <div>
+        <button id="prevBtn" class="btn">◀︎</button>
+        <button id="nextBtn" class="btn">▶︎</button>
+      </div>
+    </div>
+    <p style="margin:0 20px 20px; font-size:14px; color:rgba(255,255,255,.7)">
+      자동 왕복 이동 · 휠/터치 4–5카드 스텝 · 클릭 시 1.5× 포커스
+    </p>
+    <div id="rail" class="carousel"></div>
+  </section>
+
+  <script>
+    const rail=document.getElementById('rail');
+    const partners=[
+      {name:'Evolution', slug:'evolution'},
+      {name:'Pragmatic Play', slug:'pragmatic-play'},
+      ...Array.from({length:26},(_,i)=>({name:`Provider ${String(i+3).padStart(2,'0')}`, slug:`provider-${String(i+3).padStart(2,'0')}`}))
+    ];
+    let activeEl=null, autoDir=1, autoTimer=null, resumeTimer=null;
+
+    render(); startAuto();
+
+    function render(){
+      rail.innerHTML='';
+      partners.forEach((p,i)=>{
+        const wrap=document.createElement('div');
+        const card=document.createElement('div'); card.className='card'; card.dataset.index=i;
+        const img=document.createElement('img'); img.src=`./assets/partners/${p.slug}.png`; img.alt=p.name;
+        img.onerror=()=>{img.src=placeholder(p.name)};
+        const cap=document.createElement('div'); cap.className='cap'; cap.textContent=p.name;
+        card.appendChild(img); card.appendChild(cap); wrap.appendChild(card); rail.appendChild(wrap);
+        card.addEventListener('click',()=>toggleActive(card));
+      });
+
+      rail.addEventListener('wheel', e=>{
+        e.preventDefault(); const w=cardW(), step=Math.round((window.innerWidth/w)*4.5);
+        rail.scrollBy({left:Math.sign(e.deltaY||e.deltaX)*w*step, behavior:'smooth'}); pauseAuto();
+      }, {passive:false});
+
+      let sx=0; rail.addEventListener('touchstart',e=>{sx=e.touches[0].clientX; pauseAuto();},{passive:true});
+      rail.addEventListener('touchend',e=>{
+        const dx=e.changedTouches[0].clientX-sx;
+        const w=cardW(), step=Math.round((window.innerWidth/w)*4.5);
+        if(Math.abs(dx)>20) rail.scrollBy({left:-Math.sign(dx)*w*step,behavior:'smooth'});
+      },{passive:true});
+
+      document.getElementById('prevBtn').onclick=()=>{ rail.scrollBy({left:-cardW()*4, behavior:'smooth'}); pauseAuto(); };
+      document.getElementById('nextBtn').onclick=()=>{ rail.scrollBy({left: cardW()*4, behavior:'smooth'}); pauseAuto(); };
+    }
+
+    function toggleActive(card){
+      if(activeEl===card){clearActive(); return;}
+      clearActive(); activeEl=card; activeEl.classList.add('active');
+      Array.from(rail.querySelectorAll('.card')).forEach(el=>{if(el!==activeEl) el.classList.add('dimmed');});
+      const wrap=activeEl.parentElement; const left=wrap.offsetLeft-(rail.clientWidth-wrap.clientWidth)/2;
+      rail.scrollTo({left,behavior:'smooth'});
+    }
+    function clearActive(){Array.from(rail.querySelectorAll('.card')).forEach(el=>el.classList.remove('active','dimmed')); activeEl=null;}
+    function cardW(){const el=rail.querySelector('div'); return el? el.getBoundingClientRect().width+16:360;}
+    function startAuto(){ stopAuto(); autoTimer=setInterval(()=>{const max=rail.scrollWidth-rail.clientWidth; const atStart=rail.scrollLeft<=0; const atEnd=rail.scrollLeft>=max-2; if(atEnd) autoDir=-1; if(atStart) autoDir=1; rail.scrollBy({left:autoDir*cardW(), behavior:'smooth'});},1800);}
+    function stopAuto(){if(autoTimer) clearInterval(autoTimer); autoTimer=null;}
+    function pauseAuto(){stopAuto(); clearTimeout(resumeTimer); resumeTimer=setTimeout(()=>startAuto(),4000);}
+    function placeholder(name){const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='800' height='400'><rect width='100%' height='100%' fill='white'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='36' fill='black'>${name}</text></svg>`; return 'data:image/svg+xml;utf8,'+encodeURIComponent(svg);}
+  </script>
+</body>
+</html>
